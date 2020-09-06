@@ -1,0 +1,51 @@
+﻿<Window x:Class="SqlAnalyzer.Views.Forms.SearchColumnsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SqlAnalyzer.Views.Forms"
+        xmlns:vm="clr-namespace:SqlAnalyzer.ViewModels"
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=System"
+        xmlns:dat="clr-namespace:System.Windows.Data;assembly=PresentationFramework"
+        mc:Ignorable="d"
+        Title="Поиск по колонкам" Height="896.25" Width="1756.25">
+    <Window.DataContext>
+        <vm:SearchColumnsViewModel/>
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="819*"/>
+        </Grid.RowDefinitions>
+        <Label Content="Строка подключения:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="145,13,0,0" TextWrapping="Wrap" 
+                 Text="{Binding ConnectionString}" VerticalAlignment="Top" Width="430"/>
+        <Button Content="Поиск колонок" HorizontalAlignment="Left" Margin="580,13,0,0" VerticalAlignment="Top" Width="175" Height="23"
+                Command="{Binding SearchingColumnsCommand}"
+                IsEnabled="{Binding !IsSearchingNow}"/>
+        <DataGrid x:Name="grd" HorizontalAlignment="Left" Height="734" Margin="515,76,0,0" VerticalAlignment="Top" Width="724"
+                  ItemsSource="{Binding ColumnDetails, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True}"
+                  SelectedItem="{Binding SelectedItemColumnDetails, Mode=TwoWay}" Grid.Row="1"/>
+        <Button Content="Пример записи колонки в таблице" HorizontalAlignment="Left" 
+                Margin="10,10,0,0" VerticalAlignment="Top" Width="396"
+                Command="{Binding ColumnSampleInTableCommand}" Grid.Row="1"/>
+        <Button Content="Пример всех записей одинаковой колонки" HorizontalAlignment="Left" Margin="411,10,0,0" VerticalAlignment="Top" Width="396"
+                Command="{Binding AllColumnSamplesInTablesCommand}" Grid.Row="1"/>
+        <Label Content="Детализация по колонке: " HorizontalAlignment="Left" Margin="515,47,0,0" VerticalAlignment="Top" Grid.Row="1"/>
+        <Label Content="{Binding SelectedColumn.Name}" HorizontalAlignment="Left" Margin="673,47,0,0" VerticalAlignment="Top" Grid.Row="1"/>
+        <DataGrid HorizontalAlignment="Left" Height="734" Margin="1244,76,0,0" 
+                  VerticalAlignment="Top" Width="494"
+                  ItemsSource="{Binding UniqueValuesInColumn}" Grid.Row="1"/>
+        <Label Content="Список уникальных значений" HorizontalAlignment="Left" Margin="1244,47,0,0" VerticalAlignment="Top" Grid.Row="1"/>
+        <Button Content="Извлечь уникальные значения выделенной строки" 
+                HorizontalAlignment="Left" Margin="812,10,0,0" VerticalAlignment="Top" 
+                Width="396"
+                Command="{Binding SearchUniqueValuesInColumnCommand}" Grid.Row="1"/>
+        <DataGrid HorizontalAlignment="Left" Height="734" Margin="10,76,0,0" VerticalAlignment="Top" Width="494"
+                  ItemsSource="{Binding ColumnsCountCollection}"
+                  SelectedItem="{Binding SelectedColumn}" Grid.Row="1"/>
+        <Label Content="Список колонок" HorizontalAlignment="Left" Margin="10,47,0,0" VerticalAlignment="Top" Grid.Row="1"/>
+
+    </Grid>
+</Window>
